@@ -2,15 +2,12 @@
 
 import { useAuth } from '@/context/AuthContext';
 import WalletCard from '@/components/wallet_card';
-import { ethers } from 'ethers';
-
-import { getSubmissionFee, submitMusic, voteOnSubmission, getWinners } from '@/utils/contractUtils'; 
 import HomeScreen from '@/components/home_screen';
-import { use } from 'react';
+import { NETWROK_PARAMS } from '@/config';
 
 
 export default function Home() {
-	const { userAddr , walletSdk,chainId} = useAuth();
+	const { userAddr , chainId} = useAuth();
     console.log(userAddr,chainId);
     
 
@@ -18,7 +15,7 @@ export default function Home() {
 		<div className="page-container">
 
 
-			{((!userAddr) || (chainId!=='0xa045c')) ? (
+			{((!userAddr) || (chainId!=='0x' + Number(NETWROK_PARAMS.chainId).toString(16))) ? (
 				
 				<WalletCard />
 				

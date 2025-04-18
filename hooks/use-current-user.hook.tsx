@@ -6,24 +6,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { NETWROK_PARAMS } from '@/config';
 
-export const TESTNET_PARAMS = {
-    chainId: '656476',
-    chainName: 'Edu Chain Testnet',
-    rpcUrls: ['https://open-campus-codex-sepolia.drpc.org'], 
-    nativeCurrency: {
-      name: 'EDU',
-      symbol: 'EDU',
-      decimals: 18,
-    },
-    blockExplorerUrls: ['https://edu-chain-testnet.blockscout.com/'], 
-  }
+
 
 export default function useCurrentUser() {
 	const [userAddr, setUserAddr] = useState(null);
 	const [chainId, setChainId] = useState<any>(null);
 	const [walletSdk, setWalletSdk] = useState<any>(null);
-	const DEFAULT_CHAIN_ID = '0xa045c'; 
+	const DEFAULT_CHAIN_ID = '0x' + Number(NETWROK_PARAMS.chainId).toString(16);
 
 	useEffect(() => {
 		// Only initialize the SDK on the client
@@ -96,7 +87,7 @@ export default function useCurrentUser() {
 				// Always add TESTNET_PARAMS, no option for MAINNET
 				await walletSdk.ethereum.request({
 					method: 'wallet_addEthereumChain',
-					params: [TESTNET_PARAMS],
+					params: [NETWROK_PARAMS],
 				});
 				setChainId(chainId);
 			} catch (addError) {
@@ -108,7 +99,7 @@ export default function useCurrentUser() {
 				// Always add TESTNET_PARAMS, no option for MAINNET
 				await walletSdk.ethereum.request({
 					method: 'wallet_addEthereumChain',
-					params: [TESTNET_PARAMS],
+					params: [NETWROK_PARAMS],
 				});
 				setChainId(chainId);
 			} catch (addError) {
