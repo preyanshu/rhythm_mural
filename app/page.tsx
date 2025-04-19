@@ -7,12 +7,18 @@ export default function Home() {
   const { isConnected } = useAccount();
   const chain = useChainId();
 
-  alert(chain)
-
   const isCorrectNetwork = chain === network.id;
 
   if (isConnected && isCorrectNetwork) {
-    return <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4 py-8"> <appkit-network-button /><appkit-connect-button size="md" /><HomeScreen /></div>;
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-950 px-4 py-8 gap-4">
+        <div className="flex gap-4">
+          <appkit-button />
+          <appkit-network-button  />
+        </div>
+        <HomeScreen />
+      </div>
+    );
   }
 
   return (
@@ -23,8 +29,8 @@ export default function Home() {
         </h1>
         <p className="text-sm text-gray-400 text-center mb-8">
           {isConnected
-            ? "Manage your network settings below"
-            : "Connect your wallet to get started"}
+            ? "You're on the wrong network. Please switch to the correct one."
+            : "Connect your wallet to get started."}
         </p>
 
         <div className="flex justify-center">
@@ -33,7 +39,7 @@ export default function Home() {
               <appkit-network-button />
             </div>
           ) : (
-            <appkit-connect-button size="md" />
+            <appkit-button size="md" />
           )}
         </div>
       </div>
