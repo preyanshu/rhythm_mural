@@ -173,6 +173,11 @@ const MusicGenerator: React.FC = () => {
   : `Submit (0.002 ${network.nativeCurrency.symbol})`}
   
   </button>
+  {isSubmitting && (
+  <div className="block md:hidden text-center text-yellow-300 font-semibold text-sm mt-2">
+    Wait for the transaction to appear in your wallet, then click 'Approve' to confirm.
+  </div>
+)}
 </div>
 
 

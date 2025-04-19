@@ -67,24 +67,28 @@ export const uploadJsonToCloudinary = async (jsonData: object): Promise<string> 
 // Utility function to upload remote file (by URL) to Cloudinary
 export const uploadRemoteMusicToCloudinary = async (musicUrl: string): Promise<string> => {
   try {
-    // Fetch the file from the temporary Beatoven URL
-    const response = await fetch(musicUrl);
+    // Step 1: Fetch the file through the proxy server
+    const proxyUrl = `https://preyanshu-hnj.web.val.run?url=${encodeURIComponent(musicUrl)}`;
+
+    const response = await fetch(proxyUrl);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch music file from Beatoven');
+      throw new Error('Failed to fetch music file from proxy server');
     }
 
-    // Convert response into a Blob
+    // Step 2: Convert response to a Blob (audio file)
     const audioBlob = await response.blob();
 
-    // Use existing function to upload the blob to Cloudinary
+    // Step 3: Upload the Blob to Cloudinary using the existing function
     const uploadedUrl = await uploadToCloudinary(audioBlob);
+
     return uploadedUrl;
   } catch (error) {
     console.error('Error uploading music file to Cloudinary:', error);
     throw error;
   }
 };
+
 
 
 

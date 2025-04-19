@@ -262,6 +262,11 @@ const PreviousPage: React.FC = () => {
       hasMinted ? 'NFT Already Minted' : 'Mint NFT'
     )}
   </button>
+  {mintLoading && (
+  <div className="block md:hidden text-center font-semibold text-sm mb-2">
+    Wait for the transaction to appear in your wallet, then click 'Approve' to confirm.
+  </div>
+)}
   </>)}
 
     <div className="flex items-center justify-between mt-3">
