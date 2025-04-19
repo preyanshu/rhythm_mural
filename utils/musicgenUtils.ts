@@ -64,6 +64,29 @@ export const uploadJsonToCloudinary = async (jsonData: object): Promise<string> 
   }
 };
 
+// Utility function to upload remote file (by URL) to Cloudinary
+export const uploadRemoteMusicToCloudinary = async (musicUrl: string): Promise<string> => {
+  try {
+    // Fetch the file from the temporary Beatoven URL
+    const response = await fetch(musicUrl);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch music file from Beatoven');
+    }
+
+    // Convert response into a Blob
+    const audioBlob = await response.blob();
+
+    // Use existing function to upload the blob to Cloudinary
+    const uploadedUrl = await uploadToCloudinary(audioBlob);
+    return uploadedUrl;
+  } catch (error) {
+    console.error('Error uploading music file to Cloudinary:', error);
+    throw error;
+  }
+};
+
+
 
 // Generate music theme using Google Generative AI
 export const generateMusicTheme = async (prompt: string): Promise<string | null> => {
@@ -109,7 +132,7 @@ export const generateMusic = async (data: { inputs: string }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        prompt: { text: data.inputs },
+        prompt: { text: "give only 30s of audio for the given prompt : "+data.inputs },
         format: 'wav',
         looping: false,
       }),

@@ -5,7 +5,7 @@ import { Loader } from 'lucide-react';
 import { Music} from 'lucide-react';
 import { submitMusic , getCurrentTheme } from '@/utils/contractUtils';
 import { toast, ToastContainer } from 'react-toastify'; 
-import { generateMusic, generateMusicTheme, uploadToCloudinary } from '@/utils/musicgenUtils';
+import { generateMusic, generateMusicTheme,  uploadRemoteMusicToCloudinary} from '@/utils/musicgenUtils';
 import {network} from "@/config";
 
 interface Track {
@@ -85,7 +85,8 @@ const MusicGenerator: React.FC = () => {
       }
   
       // Upload audio to Cloudinary
-      const cloudinaryUrl = selectedTrack.blob;
+      const cloudinaryUrl = await uploadRemoteMusicToCloudinary(selectedTrack.blob);
+
       console.log('Uploaded to Cloudinary:', cloudinaryUrl);
   
       setCloudAudioUrl(cloudinaryUrl);
