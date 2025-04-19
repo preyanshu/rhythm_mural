@@ -94,38 +94,64 @@ export const generateMusicTheme = async (prompt: string): Promise<string | null>
 
 // Generate music using Hugging Face API
 export const generateMusic = async (data: { inputs: string }) => {
-  const hfApiKey = process.env.NEXT_PUBLIC_HUGGINGFACE_API_KEY as string;
+  const beatovenApiKey = process.env.NEXT_PUBLIC_BEATOVEN_API_KEY as string;
 
-  if (!hfApiKey) {
-    throw new Error('Missing Hugging Face API key in environment variables');
+  if (!beatovenApiKey) {
+    throw new Error('Missing Beatoven API key in environment variables');
   }
 
   try {
-    const response = await fetch(
-      'https://api-inference.huggingface.co/models/facebook/musicgen-small',
-      {
-        headers: {
-          Authorization: `Bearer ${hfApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify(data),
-      }
-    );
-   
+    // Step 1: Compose the track
+    const composeResponse = await fetch('https://public-api.beatoven.ai/api/v1/tracks/compose', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${beatovenApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: { text: data.inputs },
+        format: 'wav',
+        looping: false,
+      }),
+    });
 
-    console.log(response , "response");
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch music');
+    if (!composeResponse.ok) {
+      throw new Error('Failed to initiate composition');
     }
 
+    const composeResult = await composeResponse.json();
+    const taskId = composeResult.task_id;
 
+    // Step 2: Poll for composition completion
+    let status = 'composing';
+    let finalResult = null;
 
-    const audioBlob = await response.blob(); // The actual audio blob
-    return audioBlob; // Return the audio blob to the calling function
+    while (status !== 'composed') {
+      await new Promise((res) => setTimeout(res, 3000)); // wait 3 seconds
+      const statusResponse = await fetch(`https://public-api.beatoven.ai/api/v1/tasks/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${beatovenApiKey}`,
+        },
+      });
+
+      if (!statusResponse.ok) {
+        throw new Error('Failed to check task status');
+      }
+
+      finalResult = await statusResponse.json();
+      status = finalResult.status;
+
+      if (status === 'failed') {
+        throw new Error('Track composition failed');
+      }
+    }
+
+    // Step 3: Return track URL (you could also return stems if needed)
+    const trackUrl = finalResult.meta.track_url;
+    return trackUrl;
+
   } catch (error) {
-    console.error('Error fetching music:', error);
-    throw error; // Re-throw the error to handle it in the calling function
+    console.error('Error generating music:', error);
+    throw error;
   }
 };

@@ -10,7 +10,7 @@ import { generateMusic, generateMusicTheme, uploadToCloudinary } from '@/utils/m
 
 interface Track {
   prompt: string;
-  blob: Blob;
+  blob: string;
 }
 
 const MusicGenerator: React.FC = () => {
@@ -86,7 +86,7 @@ const MusicGenerator: React.FC = () => {
       }
   
       // Upload audio to Cloudinary
-      const cloudinaryUrl = await uploadToCloudinary(selectedTrack.blob);
+      const cloudinaryUrl = selectedTrack.blob;
       console.log('Uploaded to Cloudinary:', cloudinaryUrl);
   
       setCloudAudioUrl(cloudinaryUrl);
@@ -196,7 +196,7 @@ const MusicGenerator: React.FC = () => {
                     {track.prompt}
                   </p>
                   <audio controls className="w-full">
-                    <source src={URL.createObjectURL(track.blob)} type="audio/wav" />
+                    <source src={track.blob} type="audio/wav" />
                     Your browser does not support the audio element.
                   </audio>
                
