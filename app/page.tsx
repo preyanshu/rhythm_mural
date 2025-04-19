@@ -12,7 +12,7 @@ export default function Home() {
   if (isConnected && isCorrectNetwork) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-950 px-4 py-8 gap-4">
-        <div className="flex gap-4">
+        <div className="flex ">
           <appkit-button />
           <appkit-network-button  />
         </div>
