@@ -1017,7 +1017,7 @@ export const contractABI =[
 	}
 ]
 
-export const contractAddress = "0xdC17ea7F851Fa8fb65414F8EA6A7b10E8ecf4aE5";
+export const contractAddress = "0x0536a9dD2F9d694E5a23449792750201Be209050";
 
 
 function normalizeProxyData(data: any): any {
