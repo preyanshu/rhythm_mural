@@ -7,10 +7,12 @@ export default function Home() {
   const { isConnected } = useAccount();
   const chain = useChainId();
 
+  alert(chain)
+
   const isCorrectNetwork = chain === network.id;
 
   if (isConnected && isCorrectNetwork) {
-    return <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4 py-8"><HomeScreen /></div>;
+    return <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4 py-8"> <appkit-network-button /><appkit-connect-button size="md" /><HomeScreen /></div>;
   }
 
   return (
