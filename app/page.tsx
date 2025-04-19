@@ -11,15 +11,23 @@ export default function Home() {
 
   if (isConnected && isCorrectNetwork) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-950 px-4 py-8 gap-4">
-        <div className="flex ">
+      <div className="min-h-screen flex flex-col items-center justify-start bg-gray-950 px-4 py-8">
+        {/* Buttons Row */}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-3 mb-6 mx-3">
+
           <appkit-button />
-          <appkit-network-button  />
+          <appkit-network-button />
         </div>
-        <HomeScreen />
+  
+        {/* Main Content */}
+        <div className=" ">
+          <HomeScreen />
+        </div>
       </div>
     );
   }
+  
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-950 px-4 py-8">
