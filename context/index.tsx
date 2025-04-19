@@ -15,39 +15,6 @@ if (!projectId) {
   throw new Error('Project ID is not defined')
 }
 
-// Set up metadata
-const metadata = { //this is optional
-  name: "appkit-example",
-  description: "AppKit Example - EVM",
-  url: "https://reown-appkit-evm.vercel.app", // origin must match your domain & subdomain
-  icons: ["https://avatars.githubusercontent.com/u/179229932"]
-}
-
-// Create the modal
-const modal = createAppKit({
-  adapters: [wagmiAdapter],
-  chainImages: { // Customize networks' logos
-    5000: '/mantle.png', // <chainId>: 'www.network.com/logo.png'
-    534_352: '/scroll.png',
-    80084: '/berachain.png',
-    2818: '/morph.png',
-    1868: '/soneium.png',
-    48900: '/zircuit.svg',
-    11_124: '/abstract.png',
-    30: '/rootstock.png',
-  },
-  projectId,
-  networks: [network],
-  defaultNetwork: network,
-  metadata: metadata,
-  features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
-    email: true, // default to true
-    socials: ['google', 'x', 'github', 'discord', 'apple', 'facebook', 'farcaster'],
-    emailShowWallets: true, // default to true
-  },
-  themeMode: 'dark'
-})
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
