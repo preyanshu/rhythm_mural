@@ -70,7 +70,7 @@ const TodayPage = () => {
       toast.success(`Voted for submission ${submissionIndex + 1}`);
     } catch (error) {
       console.error("Error voting:", error);
-      toast.error("Error voting, please try again.");
+      toast.error("Error voting, please try again."+ JSON.stringify(error));
     }
   };
 
@@ -181,7 +181,6 @@ const TodayPage = () => {
       >
         <h2
           className="text-xl font-bold text-purple-400 mb-2"
-          onClick={() => alert(JSON.stringify(submission))}
         >
           Submission {index + 1}
         </h2>
