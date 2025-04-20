@@ -176,7 +176,7 @@ const MusicGenerator: React.FC = () => {
 
   {isSubmitting && (
   <div className="block md:hidden text-center text-yellow-300 font-semibold text-sm mt-2">
-    Please open your wallet to approve the transaction.
+    Wait for the transaction to appear in your wallet, then click 'Approve' to confirm.
   </div>
 )}
 
